@@ -14,12 +14,12 @@ Summary:	Layer intended to be a software MAC layer
 Summary(pl):	***
 Name:		softmac
 # can't find version !
-Version:	20060120
 %define		_rel	0.1
+Version:	20060120
 Release:	%{_rel}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	http://softmac.sipsolutions.net/softmac-snapshot.tar.bz2
+Source0:	http://softmac.sipsolutions.net/%{name}-snapshot.tar.bz2
 # Source0-md5:	4f9f11bd0648c1739e74b090f7516627
 URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
@@ -32,7 +32,11 @@ Requires(post,postun):	/sbin/depmod
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-The ieee80211 softmac layer is intended to be a software MAC layer complementing ieee80211 layer in Linux with protocol management features that a lot of hardware no longer does but instead hands off to software. It is intended to handle scanning, assocation and similar tasks.
+The ieee80211 softmac layer is intended to be a software MAC layer
+complementing ieee80211 layer in Linux with protocol management
+features that a lot of hardware no longer does but instead hands off
+to software. It is intended to handle scanning, assocation and similar
+tasks.
 
 %description -l pl
 ***
@@ -49,7 +53,11 @@ Requires(postun):	%releq_kernel_up
 %endif
 
 %description -n kernel-net-softmac
-The ieee80211 softmac layer is intended to be a software MAC layer complementing ieee80211 layer in Linux with protocol management features that a lot of hardware no longer does but instead hands off to software. It is intended to handle scanning, assocation and similar tasks.
+The ieee80211 softmac layer is intended to be a software MAC layer
+complementing ieee80211 layer in Linux with protocol management
+features that a lot of hardware no longer does but instead hands off
+to software. It is intended to handle scanning, assocation and similar
+tasks.
 
 %description -n kernel-net-softmac -l pl
 XXX
@@ -66,7 +74,11 @@ Requires(postun):	%releq_kernel_smp
 %endif
 
 %description -n kernel-smp-net-softmac
-The ieee80211 softmac layer is intended to be a software MAC layer complementing ieee80211 layer in Linux with protocol management features that a lot of hardware no longer does but instead hands off to software. It is intended to handle scanning, assocation and similar tasks.
+The ieee80211 softmac layer is intended to be a software MAC layer
+complementing ieee80211 layer in Linux with protocol management
+features that a lot of hardware no longer does but instead hands off
+to software. It is intended to handle scanning, assocation and similar
+tasks.
 
 %description -n kernel-smp-net-softmac -l pl
 XXX
