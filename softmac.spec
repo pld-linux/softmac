@@ -41,6 +41,14 @@ tasks.
 %description -l pl
 ***
 
+%package devel
+Summary:	Kernel headers
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+
+%description devel
+SoftMAC kernel headers.
+
 %package -n kernel-net-softmac
 Summary:	Layer intended to be a software MAC layer
 Summary(pl):	***
@@ -139,6 +147,7 @@ cd net/ieee80211
 
 %if %{with kernel}
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net
+install -d $RPM_BUILD_ROOT%{_usr}/src/%{name}-include
 
 for MOD in ieee80211_crypt_ccmp ieee80211_crypt_tkip \
 	ieee80211 ieee80211_crypt ieee80211_crypt_wep; do
@@ -157,6 +166,8 @@ done
 install softmac/ieee80211softmac-smp.ko \
 	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211softmac.ko
 %endif
+
+cp -rf net $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/
 %endif
 
 %clean
@@ -178,6 +189,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %endif
+
+%files devel
+%defattr(644,root,root,755)
+%{_usr}/src/%{name}-include
 
 %if %{with kernel}
 %files -n kernel-net-softmac
