@@ -21,6 +21,7 @@ License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://softmac.sipsolutions.net/%{name}-snapshot.tar.bz2
 # Source0-md5:	4f9f11bd0648c1739e74b090f7516627
+Source1:	%{name}-symvers.add
 URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
@@ -121,7 +122,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 	ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
 %endif
 
-	cp %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
+	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
 	touch include/config/MARKER
 
 	%{__make} -C %{_kernelsrcdir} clean \
@@ -147,7 +148,6 @@ cd net/ieee80211
 
 %if %{with kernel}
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net
-install -d $RPM_BUILD_ROOT%{_usr}/src/%{name}-include
 
 for MOD in ieee80211_crypt_ccmp ieee80211_crypt_tkip \
 	ieee80211 ieee80211_crypt ieee80211_crypt_wep; do
@@ -166,9 +166,11 @@ done
 install softmac/ieee80211softmac-smp.ko \
 	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211softmac.ko
 %endif
-
-cp -rf net $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/
 %endif
+
+install -d $RPM_BUILD_ROOT%{_usr}/src/%{name}-include
+cp -rf net $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/
+install %{SOURCE1} $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/symvers.add
 
 %clean
 rm -rf $RPM_BUILD_ROOT
