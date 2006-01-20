@@ -1,0 +1,146 @@
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_crypt.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt.c
+--- softmac-snapshot/net/ieee80211/ieee80211_crypt.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt.c	2006-01-20 15:06:19.000000000 +0100
+@@ -16,7 +16,7 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ 
+ MODULE_AUTHOR("Jouni Malinen");
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_crypt_ccmp.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_ccmp.c
+--- softmac-snapshot/net/ieee80211/ieee80211_crypt_ccmp.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_ccmp.c	2006-01-20 15:06:37.000000000 +0100
+@@ -21,7 +21,7 @@
+ #include <asm/string.h>
+ #include <linux/wireless.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ #include <linux/crypto.h>
+ #include <asm/scatterlist.h>
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_crypt_tkip.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_tkip.c
+--- softmac-snapshot/net/ieee80211/ieee80211_crypt_tkip.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_tkip.c	2006-01-20 15:06:48.000000000 +0100
+@@ -20,7 +20,7 @@
+ #include <linux/if_arp.h>
+ #include <asm/string.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ #include <linux/crypto.h>
+ #include <asm/scatterlist.h>
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_crypt_wep.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_wep.c
+--- softmac-snapshot/net/ieee80211/ieee80211_crypt_wep.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_crypt_wep.c	2006-01-20 15:06:59.000000000 +0100
+@@ -17,7 +17,7 @@
+ #include <linux/skbuff.h>
+ #include <asm/string.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ #include <linux/crypto.h>
+ #include <asm/scatterlist.h>
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_geo.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_geo.c
+--- softmac-snapshot/net/ieee80211/ieee80211_geo.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_geo.c	2006-01-20 15:07:12.000000000 +0100
+@@ -42,7 +42,7 @@
+ #include <linux/etherdevice.h>
+ #include <asm/uaccess.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ int ieee80211_is_valid_channel(struct ieee80211_device *ieee, u8 channel)
+ {
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_module.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_module.c
+--- softmac-snapshot/net/ieee80211/ieee80211_module.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_module.c	2006-01-20 15:07:20.000000000 +0100
+@@ -50,7 +50,7 @@
+ #include <asm/uaccess.h>
+ #include <net/arp.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ #define DRV_DESCRIPTION "802.11 data/management/control stack"
+ #define DRV_NAME        "ieee80211"
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_rx.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_rx.c
+--- softmac-snapshot/net/ieee80211/ieee80211_rx.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_rx.c	2006-01-20 15:07:28.000000000 +0100
+@@ -33,7 +33,7 @@
+ #include <asm/uaccess.h>
+ #include <linux/ctype.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ static inline void ieee80211_monitor_rx(struct ieee80211_device *ieee,
+ 					struct sk_buff *skb,
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_tx.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_tx.c
+--- softmac-snapshot/net/ieee80211/ieee80211_tx.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_tx.c	2006-01-20 15:07:37.000000000 +0100
+@@ -42,7 +42,7 @@
+ #include <linux/etherdevice.h>
+ #include <asm/uaccess.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ 
+ /*
+ 
+diff -Nur softmac-snapshot/net/ieee80211/ieee80211_wx.c softmac-snapshot.local_headers/net/ieee80211/ieee80211_wx.c
+--- softmac-snapshot/net/ieee80211/ieee80211_wx.c	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/ieee80211_wx.c	2006-01-20 15:07:46.000000000 +0100
+@@ -34,7 +34,7 @@
+ #include <linux/module.h>
+ #include <linux/jiffies.h>
+ 
+-#include <net/ieee80211.h>
++#include "net/ieee80211.h"
+ #include <linux/wireless.h>
+ 
+ static const char *ieee80211_modes[] = {
+diff -Nur softmac-snapshot/net/ieee80211/softmac/ieee80211softmac_priv.h softmac-snapshot.local_headers/net/ieee80211/softmac/ieee80211softmac_priv.h
+--- softmac-snapshot/net/ieee80211/softmac/ieee80211softmac_priv.h	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/net/ieee80211/softmac/ieee80211softmac_priv.h	2006-01-20 15:08:43.000000000 +0100
+@@ -27,8 +27,8 @@
+ #ifndef IEEE80211SOFTMAC_PRIV_H_
+ #define IEEE80211SOFTMAC_PRIV_H_
+ 
+-#include <net/ieee80211softmac.h>
+-#include <net/ieee80211softmac_wx.h>
++#include "net/ieee80211softmac.h"
++#include "net/ieee80211softmac_wx.h"
+ #include <linux/kernel.h>
+ #include <linux/stringify.h>
+ 
+diff -Nur softmac-snapshot/include/net/ieee80211softmac.h softmac-snapshot.local_headers/include/net/ieee80211softmac.h
+--- softmac-snapshot/include/net/ieee80211softmac.h	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/include/net/ieee80211softmac.h	2006-01-20 15:14:32.000000000 +0100
+@@ -31,7 +31,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/workqueue.h>
+ #include <linux/list.h>
+-#include <net/ieee80211.h>
++#include "ieee80211.h"
+ 
+ /* Once the API is considered more or less stable,
+  * this should be incremented on API incompatible changes.
+diff -Nur softmac-snapshot/include/net/ieee80211softmac_wx.h softmac-snapshot.local_headers/include/net/ieee80211softmac_wx.h
+--- softmac-snapshot/include/net/ieee80211softmac_wx.h	2006-01-20 06:27:04.000000000 +0100
++++ softmac-snapshot.local_headers/include/net/ieee80211softmac_wx.h	2006-01-20 15:14:44.000000000 +0100
+@@ -29,7 +29,7 @@
+ #ifndef _IEEE80211SOFTMAC_WX_H
+ #define _IEEE80211SOFTMAC_WX_H
+ 
+-#include <net/ieee80211softmac.h>
++#include "ieee80211softmac.h"
+ #include <net/iw_handler.h>
+ 
+ extern int
