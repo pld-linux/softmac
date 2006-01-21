@@ -147,24 +147,29 @@ rm -rf $RPM_BUILD_ROOT
 cd net/ieee80211
 
 %if %{with kernel}
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}{,smp}
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net/sm_ieee80211
 
-for MOD in ieee80211_crypt_ccmp ieee80211_crypt_tkip \
-	ieee80211 ieee80211_crypt ieee80211_crypt_wep; do
-install $MOD-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/sm_$MOD.ko
+for MOD in ieee80211 ieee80211_crypt ieee80211_crypt_wep	\
+		ieee80211_crypt_ccmp ieee80211_crypt_tkip; do
+	install $MOD-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
+		$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/sm_$MOD.ko
+	echo "alias $MOD sm_$MOD" \
+		>> $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}/softmac.conf
 done
 install softmac/ieee80211softmac-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/ieee80211softmac.ko
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/ieee80211softmac.ko
 
 %if %{with smp} && %{with dist_kernel}
-for MOD in ieee80211_crypt_ccmp ieee80211_crypt_tkip \
-	ieee80211 ieee80211_crypt ieee80211_crypt_wep; do
-install $MOD-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/sm_$MOD.ko
+for MOD in ieee80211 ieee80211_crypt ieee80211_crypt_wep	\
+		ieee80211_crypt_ccmp ieee80211_crypt_tkip; do
+	install $MOD-smp.ko \
+		$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/sm_$MOD.ko
+	echo "alias $MOD sm_$MOD" \
+		>> $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/softmac.conf
 done
 install softmac/ieee80211softmac-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211softmac.ko
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/ieee80211softmac.ko
 %endif
 %endif
 
@@ -199,11 +204,15 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with kernel}
 %files -n kernel-net-softmac
 %defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}/kernel/net/*.ko*
+%dir /lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211
+/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/*.ko*
+%{_sysconfdir}/modprobe.d/%{_kernel_ver}/softmac.conf
 
 %if %{with smp} && %{with dist_kernel}
 %files -n kernel-smp-net-softmac
 %defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}smp/kernel/net/*.ko*
+%dir /lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211
+/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/*.ko*
+%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/softmac.conf
 %endif
 %endif
