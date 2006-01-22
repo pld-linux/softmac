@@ -13,6 +13,7 @@
 %define		_snap	20060120
 %define		_rel	0.%{_snap}.1
 Summary:	Layer intended to be a software MAC layer
+Summary(pl):	Warstwa maj±ca byæ programow± warstw± MAC
 Name:		softmac
 Version:	0.1
 Release:	%{_rel}
@@ -34,20 +35,30 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The ieee80211 softmac layer is intended to be a software MAC layer
 complementing ieee80211 layer in Linux with protocol management
 features that a lot of hardware no longer does but instead hands off
-to software. It is intended to handle scanning, assocation and similar
-tasks.
+to software. It is intended to handle scanning, association and
+similar tasks.
+
+%description -l pl
+softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
+Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
+sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
+obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
 
 %package devel
 Summary:	Kernel headers
+Summary(pl):	Pliki nag³ówkowe j±dra
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 
 %description devel
 SoftMAC kernel headers.
 
+%description devel -l pl
+Pliki nag³ówkowe j±dra SoftMAC
+
 %package -n kernel-net-softmac
-Summary:	Layer intended to be a software MAC layer
-Summary(pl):	***
+Summary:	Software MAC layer - Linux kernel drivers
+Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -63,9 +74,19 @@ features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, assocation and similar
 tasks.
 
+This package contains Linux kernel drivers.
+
+%description -n kernel-net-softmac -l pl
+softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
+Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
+sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
+obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
+
+Ten pakiet zawiera sterowniki j±dra Linuksa.
+
 %package -n kernel-smp-net-softmac
-Summary:	Broadcom BCM4400 driver for Linux SMP
-Summary(pl):	Sterownik do karty Broadcom BCM4400 dla Linuksa SMP
+Summary:	Software MAC layer - Linux SMP kernel drivers
+Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa SMP
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -81,18 +102,27 @@ features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, assocation and similar
 tasks.
 
+This package contains Linux SMP kernel drivers.
+
+%description -n kernel-smp-net-softmac -l pl
+softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
+Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
+sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
+obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
+
+Ten pakiet zawiera sterowniki j±dra Linuksa SMP.
+
 %prep
 %setup -q -n %{name}-snapshot
 %patch0 -p1
 sed 's/$(CONFIG_[A-Za-z0-9_]*)/m/' 	\
 	-i net/ieee80211/Makefile	\
 	-i net/ieee80211/softmac/Makefile
-cp -rf include/net net/ieee80211/
-cp -rf include/net net/ieee80211/softmac/
+cp -rf include/net net/ieee80211
+cp -rf include/net net/ieee80211/softmac
 
 %build
 cd net/ieee80211
-
 
 %if %{with kernel}
 for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
