@@ -3,25 +3,23 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_without	kernel		# don't build kernel modules
 %bcond_without	smp		# don't build SMP module
-#%%bcond_without	userspace	# don't build userspace module
+%bcond_without	userspace	# don't build userspace module
 %bcond_with	verbose		# verbose build (V=1)
 #
 %ifarch sparc
 %undefine	with_smp
 %endif
 #
+%define		_snap	20060120
+%define		_rel	0.%{_snap}.1
 Summary:	Layer intended to be a software MAC layer
-Summary(pl):	***
 Name:		softmac
-# can't find version !
-%define		_rel	0.1
-Version:	20060120
+Version:	0.1
 Release:	%{_rel}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://softmac.sipsolutions.net/%{name}-snapshot.tar.bz2
 # Source0-md5:	4f9f11bd0648c1739e74b090f7516627
-Source1:	%{name}-symvers.add
 URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
@@ -38,9 +36,6 @@ complementing ieee80211 layer in Linux with protocol management
 features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, assocation and similar
 tasks.
-
-%description -l pl
-***
 
 %package devel
 Summary:	Kernel headers
@@ -68,9 +63,6 @@ features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, assocation and similar
 tasks.
 
-%description -n kernel-net-softmac -l pl
-XXX
-
 %package -n kernel-smp-net-softmac
 Summary:	Broadcom BCM4400 driver for Linux SMP
 Summary(pl):	Sterownik do karty Broadcom BCM4400 dla Linuksa SMP
@@ -88,9 +80,6 @@ complementing ieee80211 layer in Linux with protocol management
 features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, assocation and similar
 tasks.
-
-%description -n kernel-smp-net-softmac -l pl
-XXX
 
 %prep
 %setup -q -n %{name}-snapshot
@@ -173,9 +162,8 @@ install softmac/ieee80211softmac-smp.ko \
 %endif
 %endif
 
-install -d $RPM_BUILD_ROOT%{_usr}/src/%{name}-include
-cp -rf net $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/
-install %{SOURCE1} $RPM_BUILD_ROOT%{_usr}/src/%{name}-include/symvers.add
+install -d $RPM_BUILD_ROOT%{_includedir}/linux/softmac
+cp -a net $RPM_BUILD_ROOT%{_includedir}/linux/softmac
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -193,13 +181,10 @@ rm -rf $RPM_BUILD_ROOT
 %depmod %{_kernel_ver}smp
 
 %if %{with userspace}
-%files
-%defattr(644,root,root,755)
-%endif
-
 %files devel
 %defattr(644,root,root,755)
-%{_usr}/src/%{name}-include
+%{_includedir}/linux/softmac
+%endif
 
 %if %{with kernel}
 %files -n kernel-net-softmac
