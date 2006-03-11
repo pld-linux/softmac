@@ -157,8 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 cd net/ieee80211
 
 %if %{with kernel}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}{,smp}
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net/sm_ieee80211
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}{,smp} \
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net/sm_ieee80211
 
 for MOD in ieee80211 ieee80211_crypt ieee80211_crypt_wep	\
 		ieee80211_crypt_ccmp ieee80211_crypt_tkip; do
