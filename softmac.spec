@@ -10,7 +10,7 @@
 %undefine	with_smp
 %endif
 #
-%define		_snap	20060124
+%define		_snap	20060319
 %define		_rel	0.%{_snap}.1
 Summary:	Layer intended to be a software MAC layer
 Summary(pl):	Warstwa maj±ca byæ programow± warstw± MAC
@@ -20,7 +20,7 @@ Release:	%{_rel}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://softmac.sipsolutions.net/%{name}-snapshot.tar.bz2
-# Source0-md5:	445e3197369990f5789006f32432be75
+# Source0-md5:	6731ffb088fe9dc42a17737b69892a34
 URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
