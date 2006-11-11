@@ -24,7 +24,7 @@ Source0:	http://softmac.sipsolutions.net/%{name}-snapshot.tar.bz2
 URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.7}
+%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.217
 %endif
 BuildRequires:	sed >= 4.0
@@ -56,7 +56,7 @@ SoftMAC kernel headers.
 %description devel -l pl
 Pliki nag³ówkowe j±dra SoftMAC
 
-%package -n kernel-net-softmac
+%package -n kernel%{_alt_kernel}-net-softmac
 Summary:	Software MAC layer - Linux kernel drivers
 Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -67,7 +67,7 @@ Requires(post,postun):	/sbin/depmod
 Requires(postun):	%releq_kernel_up
 %endif
 
-%description -n kernel-net-softmac
+%description -n kernel%{_alt_kernel}-net-softmac
 The ieee80211 softmac layer is intended to be a software MAC layer
 complementing ieee80211 layer in Linux with protocol management
 features that a lot of hardware no longer does but instead hands off
@@ -76,7 +76,7 @@ tasks.
 
 This package contains Linux kernel drivers.
 
-%description -n kernel-net-softmac -l pl
+%description -n kernel%{_alt_kernel}-net-softmac -l pl
 softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
 Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
 sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
@@ -84,7 +84,7 @@ obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
 
 Ten pakiet zawiera sterowniki j±dra Linuksa.
 
-%package -n kernel-smp-net-softmac
+%package -n kernel%{_alt_kernel}-smp-net-softmac
 Summary:	Software MAC layer - Linux SMP kernel drivers
 Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa SMP
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -95,7 +95,7 @@ Requires(post,postun):	/sbin/depmod
 Requires(postun):	%releq_kernel_smp
 %endif
 
-%description -n kernel-smp-net-softmac
+%description -n kernel%{_alt_kernel}-smp-net-softmac
 The ieee80211 softmac layer is intended to be a software MAC layer
 complementing ieee80211 layer in Linux with protocol management
 features that a lot of hardware no longer does but instead hands off
@@ -104,7 +104,7 @@ tasks.
 
 This package contains Linux SMP kernel drivers.
 
-%description -n kernel-smp-net-softmac -l pl
+%description -n kernel%{_alt_kernel}-smp-net-softmac -l pl
 softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
 Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
 sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
@@ -125,31 +125,7 @@ cp -rf include/net net/ieee80211/softmac
 cd net/ieee80211
 
 %if %{with kernel}
-for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
-	if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
-		exit 1
-	fi
-	install -d o/include/linux
-	ln -sf %{_kernelsrcdir}/config-$cfg o/.config
-	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg o/Module.symvers
-	ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h o/include/linux/autoconf.h
-	%{__make} -j1 -C %{_kernelsrcdir} O=$PWD/o prepare scripts
-
-	%{__make} -C %{_kernelsrcdir} clean \
-		RCS_FIND_IGNORE="-name '*.ko' -o" \
-		M=$PWD O=$PWD/o \
-		%{?with_verbose:V=1}
-	%{__make} -C %{_kernelsrcdir} modules \
-		CC="%{__cc}" CPP="%{__cpp}" \
-		M=$PWD O=$PWD/o \
-		%{?with_verbose:V=1}
-
-	for MOD in ieee80211_crypt_ccmp ieee80211_crypt_tkip \
-			ieee80211 ieee80211_crypt ieee80211_crypt_wep \
-			softmac/ieee80211softmac; do
-		mv $MOD.ko $MOD-$cfg.ko
-	done
-done
+%build_kernel_modules -m ieee80211,ieee80211_crypt{,_ccmp,_tkip,_wep},softmac/ieee80211softmac
 %endif
 
 %install
@@ -157,30 +133,8 @@ rm -rf $RPM_BUILD_ROOT
 cd net/ieee80211
 
 %if %{with kernel}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}{,smp} \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/net/sm_ieee80211
-
-for MOD in ieee80211 ieee80211_crypt ieee80211_crypt_wep	\
-		ieee80211_crypt_ccmp ieee80211_crypt_tkip; do
-	install $MOD-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-		$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/sm_$MOD.ko
-	echo "alias $MOD sm_$MOD" \
-		>> $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}/softmac.conf
-done
-install softmac/ieee80211softmac-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/ieee80211softmac.ko
-
-%if %{with smp} && %{with dist_kernel}
-for MOD in ieee80211 ieee80211_crypt ieee80211_crypt_wep	\
-		ieee80211_crypt_ccmp ieee80211_crypt_tkip; do
-	install $MOD-smp.ko \
-		$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/sm_$MOD.ko
-	echo "alias $MOD sm_$MOD" \
-		>> $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/softmac.conf
-done
-install softmac/ieee80211softmac-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/ieee80211softmac.ko
-%endif
+%install_kernel_modules -s %{name} -n %{name} -m ieee80211,ieee80211_crypt{,_ccmp,_tkip,_wep} -d kernel/net/ieee80211-%{name}
+%install_kernel_modules -m softmac/ieee80211softmac -d kernel/net/ieee80211-%{name}/%{name}
 %endif
 
 install -d $RPM_BUILD_ROOT%{_includedir}/linux/softmac
@@ -189,16 +143,16 @@ cp -a net $RPM_BUILD_ROOT%{_includedir}/linux/softmac
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-n kernel-net-softmac
+%post	-n kernel%{_alt_kernel}-net-softmac
 %depmod %{_kernel_ver}
 
-%postun	-n kernel-net-softmac
+%postun	-n kernel%{_alt_kernel}-net-softmac
 %depmod %{_kernel_ver}
 
-%post	-n kernel-smp-net-softmac
+%post	-n kernel%{_alt_kernel}-smp-net-softmac
 %depmod %{_kernel_ver}smp
 
-%postun -n kernel-smp-net-softmac
+%postun -n kernel%{_alt_kernel}-smp-net-softmac
 %depmod %{_kernel_ver}smp
 
 %if %{with userspace}
@@ -208,17 +162,21 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with kernel}
-%files -n kernel-net-softmac
+%files -n kernel%{_alt_kernel}-net-softmac
 %defattr(644,root,root,755)
-%dir /lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211
-/lib/modules/%{_kernel_ver}/kernel/net/sm_ieee80211/*.ko*
-%{_sysconfdir}/modprobe.d/%{_kernel_ver}/softmac.conf
+%dir /lib/modules/%{_kernel_ver}/kernel/net/ieee80211-%{name}
+/lib/modules/%{_kernel_ver}/kernel/net/ieee80211-%{name}/*.ko*
+%dir /lib/modules/%{_kernel_ver}/kernel/net/ieee80211-%{name}/%{name}
+/lib/modules/%{_kernel_ver}/kernel/net/ieee80211-%{name}/%{name}/ieee80211softmac.ko*
+%{_sysconfdir}/modprobe.d/%{_kernel_ver}/%{name}.conf
 
 %if %{with smp} && %{with dist_kernel}
-%files -n kernel-smp-net-softmac
+%files -n kernel%{_alt_kernel}-smp-net-softmac
 %defattr(644,root,root,755)
-%dir /lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211
-/lib/modules/%{_kernel_ver}smp/kernel/net/sm_ieee80211/*.ko*
-%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/softmac.conf
+%dir /lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211-%{name}
+/lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211-%{name}/*.ko*
+%dir /lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211-%{name}/%{name}
+/lib/modules/%{_kernel_ver}smp/kernel/net/ieee80211-%{name}/%{name}/ieee80211softmac.ko*
+%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/%{name}.conf
 %endif
 %endif
