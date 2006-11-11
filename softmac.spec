@@ -25,7 +25,7 @@ URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
-BuildRequires:	rpmbuild(macros) >= 1.217
+BuildRequires:	rpmbuild(macros) >= 1.326
 %endif
 BuildRequires:	sed >= 4.0
 Requires(post,postun):	/sbin/depmod
