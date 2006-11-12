@@ -25,11 +25,13 @@ URL:		http://softmac.sipsolutions.net/
 Patch0:		%{name}-local_headers.patch
 %if %{with kernel}
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
-BuildRequires:	rpmbuild(macros) >= 1.326
+BuildRequires:	rpmbuild(macros) >= 1.329
 %endif
 BuildRequires:	sed >= 4.0
 Requires(post,postun):	/sbin/depmod
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define	ieeemod	ieee80211,ieee80211_crypt{,_ccmp,_tkip,_wep}
 
 %description
 The ieee80211 softmac layer is intended to be a software MAC layer
@@ -122,10 +124,8 @@ cp -rf include/net net/ieee80211
 cp -rf include/net net/ieee80211/softmac
 
 %build
-cd net/ieee80211
-
 %if %{with kernel}
-%build_kernel_modules -m ieee80211,ieee80211_crypt{,_ccmp,_tkip,_wep},softmac/ieee80211softmac
+%build_kernel_modules -m %{ieeemod},softmac/ieee80211softmac -C net/ieee80211
 %endif
 
 %install
@@ -133,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 cd net/ieee80211
 
 %if %{with kernel}
-%install_kernel_modules -s %{name} -n %{name} -m ieee80211,ieee80211_crypt{,_ccmp,_tkip,_wep} -d kernel/net/ieee80211-%{name}
+%install_kernel_modules -s %{name} -n %{name} -m %{ieeemod} -d kernel/net/ieee80211-%{name}
 %install_kernel_modules -m softmac/ieee80211softmac -d kernel/net/ieee80211-%{name}/%{name}
 %endif
 
