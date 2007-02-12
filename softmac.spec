@@ -13,7 +13,7 @@
 %define		_snap	20060319
 %define		_rel	0.%{_snap}.1
 Summary:	Layer intended to be a software MAC layer
-Summary(pl.UTF-8):   Warstwa mająca być programową warstwą MAC
+Summary(pl.UTF-8):	Warstwa mająca być programową warstwą MAC
 Name:		softmac
 Version:	0.1
 Release:	%{_rel}
@@ -48,7 +48,7 @@ obsługiwać skanowanie, kojarzenie i podobne zadania.
 
 %package devel
 Summary:	Kernel headers
-Summary(pl.UTF-8):   Pliki nagłówkowe jądra
+Summary(pl.UTF-8):	Pliki nagłówkowe jądra
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 
@@ -60,7 +60,7 @@ Pliki nagłówkowe jądra SoftMAC
 
 %package -n kernel%{_alt_kernel}-net-softmac
 Summary:	Software MAC layer - Linux kernel drivers
-Summary(pl.UTF-8):   Programowa warstwa MAC - sterowniki jądra Linuksa
+Summary(pl.UTF-8):	Programowa warstwa MAC - sterowniki jądra Linuksa
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -88,7 +88,7 @@ Ten pakiet zawiera sterowniki jądra Linuksa.
 
 %package -n kernel%{_alt_kernel}-smp-net-softmac
 Summary:	Software MAC layer - Linux SMP kernel drivers
-Summary(pl.UTF-8):   Programowa warstwa MAC - sterowniki jądra Linuksa SMP
+Summary(pl.UTF-8):	Programowa warstwa MAC - sterowniki jądra Linuksa SMP
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
