@@ -13,7 +13,7 @@
 %define		_snap	20060319
 %define		_rel	0.%{_snap}.1
 Summary:	Layer intended to be a software MAC layer
-Summary(pl):	Warstwa maj±ca byæ programow± warstw± MAC
+Summary(pl.UTF-8):   Warstwa majÄ…ca byÄ‡ programowÄ… warstwÄ… MAC
 Name:		softmac
 Version:	0.1
 Release:	%{_rel}
@@ -40,27 +40,27 @@ features that a lot of hardware no longer does but instead hands off
 to software. It is intended to handle scanning, association and
 similar tasks.
 
-%description -l pl
-softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
-Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
-sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
-obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
+%description -l pl.UTF-8
+softmac ma byÄ‡ programowÄ… warstwÄ… MAC zgodnÄ… z warstwÄ… ieee80211 w
+Linuksie z opcjami zarzÄ…dzania protokoÅ‚em, ktÃ³rych znaczna czÄ™Å›Ä‡
+sprzÄ™tu juÅ¼ nie obsÅ‚uguje, ale pozostawia oprogramowaniu. Ma
+obsÅ‚ugiwaÄ‡ skanowanie, kojarzenie i podobne zadania.
 
 %package devel
 Summary:	Kernel headers
-Summary(pl):	Pliki nag³ówkowe j±dra
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe jÄ…dra
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 
 %description devel
 SoftMAC kernel headers.
 
-%description devel -l pl
-Pliki nag³ówkowe j±dra SoftMAC
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe jÄ…dra SoftMAC
 
 %package -n kernel%{_alt_kernel}-net-softmac
 Summary:	Software MAC layer - Linux kernel drivers
-Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa
+Summary(pl.UTF-8):   Programowa warstwa MAC - sterowniki jÄ…dra Linuksa
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -78,17 +78,17 @@ tasks.
 
 This package contains Linux kernel drivers.
 
-%description -n kernel%{_alt_kernel}-net-softmac -l pl
-softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
-Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
-sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
-obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
+%description -n kernel%{_alt_kernel}-net-softmac -l pl.UTF-8
+softmac ma byÄ‡ programowÄ… warstwÄ… MAC zgodnÄ… z warstwÄ… ieee80211 w
+Linuksie z opcjami zarzÄ…dzania protokoÅ‚em, ktÃ³rych znaczna czÄ™Å›Ä‡
+sprzÄ™tu juÅ¼ nie obsÅ‚uguje, ale pozostawia oprogramowaniu. Ma
+obsÅ‚ugiwaÄ‡ skanowanie, kojarzenie i podobne zadania.
 
-Ten pakiet zawiera sterowniki j±dra Linuksa.
+Ten pakiet zawiera sterowniki jÄ…dra Linuksa.
 
 %package -n kernel%{_alt_kernel}-smp-net-softmac
 Summary:	Software MAC layer - Linux SMP kernel drivers
-Summary(pl):	Programowa warstwa MAC - sterowniki j±dra Linuksa SMP
+Summary(pl.UTF-8):   Programowa warstwa MAC - sterowniki jÄ…dra Linuksa SMP
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -106,13 +106,13 @@ tasks.
 
 This package contains Linux SMP kernel drivers.
 
-%description -n kernel%{_alt_kernel}-smp-net-softmac -l pl
-softmac ma byæ programow± warstw± MAC zgodn± z warstw± ieee80211 w
-Linuksie z opcjami zarz±dzania protoko³em, których znaczna czê¶æ
-sprzêtu ju¿ nie obs³uguje, ale pozostawia oprogramowaniu. Ma
-obs³ugiwaæ skanowanie, kojarzenie i podobne zadania.
+%description -n kernel%{_alt_kernel}-smp-net-softmac -l pl.UTF-8
+softmac ma byÄ‡ programowÄ… warstwÄ… MAC zgodnÄ… z warstwÄ… ieee80211 w
+Linuksie z opcjami zarzÄ…dzania protokoÅ‚em, ktÃ³rych znaczna czÄ™Å›Ä‡
+sprzÄ™tu juÅ¼ nie obsÅ‚uguje, ale pozostawia oprogramowaniu. Ma
+obsÅ‚ugiwaÄ‡ skanowanie, kojarzenie i podobne zadania.
 
-Ten pakiet zawiera sterowniki j±dra Linuksa SMP.
+Ten pakiet zawiera sterowniki jÄ…dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-snapshot
