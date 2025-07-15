@@ -83,7 +83,7 @@ Ten pakiet zawiera sterowniki jądra Linuksa.
 
 %prep
 %setup -q -n %{name}-snapshot
-%patch0 -p1
+%patch -P0 -p1
 sed 's/$(CONFIG_[A-Za-z0-9_]*)/m/' 	\
 	-i net/ieee80211/Makefile	\
 	-i net/ieee80211/softmac/Makefile
